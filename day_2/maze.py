@@ -26,7 +26,7 @@ You find some kind of old-timey torch on the ground. This town is strange.
 
 def stream(pos, his, lvls):
     print('''
-The water is much deeper here, you slip, fall and are carried away by the
+The water is much deeper here. You slip, fall, and are carried away by the
 current.
 ''')
     his.add(pos)
