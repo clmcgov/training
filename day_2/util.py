@@ -35,9 +35,6 @@ SKULL = r'''
 
 '''
 
-# add initial cell to HISTtory
-
-
 def turn(pos, his, events, lvls):
     clear()
     draw_level(pos, his, lvls)

@@ -1,14 +1,14 @@
-# https://github.com/clmcgov/training
-# CTRL+SHIFT+P
 
 '''DAY 2
 
 
-We'll start by getting atom set up and cloning the training repo.
+    We'll start by getting atom set up and cloning the training repo.
+
+    https://github.com/clmcgov/training
 
 
-today we learn about sequences, sets, dictionaries, and functions. A main goal
-is to understand sequence indexing and concepts of mutability.
+    Today we learn about sequences, sets, dictionaries, and functions. A main
+    goal is to understand sequence indexing and concepts of mutability.
 
 
     First, we create a list
@@ -76,7 +76,7 @@ IndexError: list index out of range
 
 
     Lets import the maze module -- this give us access to the the maze
-    "namespace"
+    "namespace."
 
 >>> import maze
 
@@ -91,8 +91,9 @@ IndexError: list index out of range
 
 
     The LEVELS constant (in maze) contains the map -- we'll look at the first
-    floor. This is basically a 1D categorical image. Enter the maze again and
-    compare the first floor to this list -- you should see some similarities.
+    floor. This is basically a single-band categorical image. Enter the maze
+    again and compare the first floor to this list -- you should see some
+    similarities.
 
 >>> maze.LEVELS[0]
 [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -155,10 +156,9 @@ TypeError: 'tuple' object does not support item assignment
     from COLORS. By default, this function returns a "generator," so we need
     to wrap it in a call to tuple. A generator is an object that returns values
     on demand, rather than all at once -- this is a memory optimization that
-    we can ignore for now.
-
-    Note that the index of each color corresponds to one of the values in
-    LEVELS. We can get the color of any square s in the maze with COLORS[s].
+    we can ignore for now.Note that the index of each color corresponds to one
+    of the values in LEVELS. We can get the color of any square s in the maze
+    with COLORS[s].
 
 >>> tuple(enumerate(maze.COLORS))
 ((0, '\\x1b[40m'),
@@ -171,11 +171,11 @@ TypeError: 'tuple' object does not support item assignment
 
     Generally, constants should be immuatble types -- if they can change, then
     they aren't constant. Python does not enforce the concept of a constant in
-    any way, so we need to be disciplined about this kind of thing. The all
-    caps thing is really just a convention to indicate to other people that
-    something should be considered constant. You might wonder why LEVELS is a
-    list -- maybe it shouldn't be but I wanted it to look like the the NumPy
-    arrays that you'll see later.
+    any way, so we need to be disciplined about this. The all caps thing is
+    really just a convention to indicate to other people that something should
+    be considered constant. You might wonder why LEVELS is a list -- maybe it
+    shouldn't be but I wanted it to look like the the NumPy arrays that you'll
+    see later.
 
 
     Let's take a quick break to talk about functions. A function is a thing that
@@ -195,7 +195,6 @@ TypeError: 'tuple' object does not support item assignment
 
 >>> myfunc(1, 2)
 3
-
 
 
     Next, we'll talk about sets. A set in Python is just like a set in math -- a
@@ -225,11 +224,13 @@ Traceback (most recent call last):
     compileflags, 1), test.globs)
   File "<doctest __main__[28]>", line 1, in <module>
     c[1]
-TypeError: 'set' object is not subscriptable
+TypeError: 'set' object does not support indexing
 
 
     The "his" argument to each event function expects a set of visited
-    coordinates.
+    coordinates. We wouldn't want to use a list for this, because we don't
+    really care how many times a cell was visited, or in what order. We just
+    want to know if it's ever been visited.
 
 
     A dictionary is just like a set (the syntax is similar), except that each
@@ -266,8 +267,8 @@ TypeError: 'set' object is not subscriptable
 [('cat', 'Burt'), ('dog', 'Dina'), ('bird', 'Polly')]
 
 
-    EVENTS contains a listing of even functions mapped to a set of coordinates.
-    If we feed the starting coordinated into the EVENTS dictionary, we get the
+    EVENTS contains a listing of event functions mapped to a set of coordinates.
+    If we feed the starting coordinates into the EVENTS dictionary, we get the
     start function back:
 
 >>> maze.START
@@ -277,11 +278,21 @@ TypeError: 'set' object is not subscriptable
 <function start at ...>
 
 
-    Needless to say, we can now call the resulting function, advancing the maze.
+    This is where mutability counts. If we were to attempt to assign coordinate
+    lists as keys instead of tuples, we'd get an exception about lists not
+    being hashable -- we need to use an immutable type like a tuple.
 
-
+>>> d = {['a_list']: 'fails'}
+Traceback (most recent call last):
+  File ...., line 1330, in __run
+    compileflags, 1), test.globs)
+  File "<doctest __main__[41]>", line 1, in <module>
+    d = {['a_list']: 'fails'}
+TypeError: unhashable type: 'list'
 '''
 
 if __name__ == '__main__':
-    from doctest import testmod, NORMALIZE_WHITESPACE, ELLIPSIS
-    testmod(verbose=True, optionflags=NORMALIZE_WHITESPACE | ELLIPSIS)
+    from doctest import testmod, NORMALIZE_WHITESPACE, ELLIPSIS, \
+        IGNORE_EXCEPTION_DETAIL
+    testmod(verbose=True, optionflags=NORMALIZE_WHITESPACE | ELLIPSIS
+        | IGNORE_EXCEPTION_DETAIL)
