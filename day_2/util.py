@@ -55,7 +55,7 @@ def clear():
 def draw_level(pos, his, lvls):
     '''draw an entire level of the cave
     '''
-    res = []
+    res = [] # empty
     exp = explored(pos, his)
     z = pos[2] # get floor
     for y, row in enumerate(lvls[z]):
@@ -78,10 +78,8 @@ def draw_level(pos, his, lvls):
 def explored(pos, his):
     '''update explored
     '''
-    tmp = copy(his)
-    tmp.add(pos)
     exp = set((pos,))
-    for x, y, z in tmp:
+    for x, y, z in his.union((pos,)):
         for x_, y_ in FRAME:
             exp.add((x + x_, y + y_, z))
     return exp
