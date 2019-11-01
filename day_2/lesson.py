@@ -6,6 +6,22 @@
 
     https://github.com/clmcgov/training
 
+    bring up anaconda prompt and type:
+
+cd github/training/day_2
+
+python maze.py
+
+
+    You may also want to bring up a second anaconda prompt with the ipython
+    interpreter to follow along with the lesson, you'll need to navigat to the
+    day_2 directly again in that window.
+
+    Lines beginning with >>> can be pasted directly into the interpreter, along
+    with any lines immediately below beginning with ...
+
+    For example, lines 64-68 of this file can be pasted as a block directly into
+    the interpreter
 
     Today we learn about sequences, sets, dictionaries, and functions. A main
     goal is to understand sequence indexing and concepts of mutability.
@@ -51,12 +67,17 @@ IndexError: list index out of range
 ... [(0, 1), (1, 1), (2, 1)], # 1
 ... [(0, 0), (1, 0), (2, 0)]] # 2
 
+
+    Notice that when we bring ll up, all of the comments (#) as well as >>> and
+    ... have disappeared, and the lines have been concatenated.
+
 >>> ll
 [[(0, 2), (1, 2), (2, 2)], [(0, 1), (1, 1), (2, 1)], [(0, 0), (1, 0), (2, 0)]]
 
 
     We can think of ll as a matrix where we access elements in (y, x) order
-    from top to bottom, left to right. Compare this to the cartesian
+    from top to bottom, left to right. This reflects that fact that the top row
+    is the first element of the list, etc. Compare this to the cartesian
     coordiates at each element
 
 >>> ll[0]
@@ -80,6 +101,11 @@ IndexError: list index out of range
 
 >>> import maze
 
+
+    maze is a module -- a file containing predefined names. The names in maze
+    are below (ignore anything that starts with an underscore). Compare this
+    with the contents of the maze.py file in this directory.
+
 >>> dir(maze)
 ['Back', 'COLORS', 'EVENTS', 'FRAME', 'Fore', 'LEVELS', 'SKULL', 'START',
 'Style', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__',
@@ -90,10 +116,17 @@ IndexError: list index out of range
 'turn', 'walk']
 
 
+    We can access the names in maze as attributes of the module using a dot.
+    START contains the starting coordinates of the maze as (x, y, z)
+
+>>> maze.START
+(2, 9, 0)
+
+
     The LEVELS constant (in maze) contains the map -- we'll look at the first
     floor. This is basically a single-band categorical image. Enter the maze
     again and compare the first floor to this list -- you should see some
-    similarities.
+    similarities. You should be able to identify the start (START).
 
 >>> maze.LEVELS[0]
 [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -131,8 +164,8 @@ IndexError: list index out of range
 
 
     We CANNOT set the values of items in a tuple. Tuples are "immutable" --
-    this is one of the more confusing concepts in python, but it has some
-    important consequences.
+    they cannot be changed in place. This is one of the more confusing concepts
+    in python, but it has some important consequences.
 
 >>> t[2] = 9
 Traceback (most recent call last):
@@ -144,9 +177,10 @@ TypeError: 'tuple' object does not support item assignment
 
 
     COLORS is a constant tuple. Each element of the tuple is actually
-    a constant value from the colorama module. Constants are indicated by
-    all capitol letters in Python. It's not very important what these are,
-    just know that they tell your terminal to print in different colors.
+    a constant value from the colorama module (see util.py). Constants are
+    indicated by all capitol letters in Python. It's not very important what
+    these are, just know that they tell your terminal to print in different
+    colors.
 
 >>> maze.COLORS
 ('\\x1b[40m', '\\x1b[42m', '\\x1b[44m', '\\x1b[41m', '\\x1b[47m', '\\x1b[47m')
@@ -156,9 +190,9 @@ TypeError: 'tuple' object does not support item assignment
     from COLORS. By default, this function returns a "generator," so we need
     to wrap it in a call to tuple. A generator is an object that returns values
     on demand, rather than all at once -- this is a memory optimization that
-    we can ignore for now.Note that the index of each color corresponds to one
-    of the values in LEVELS. We can get the color of any square s in the maze
-    with COLORS[s].
+    we can ignore for now. Note that the index of each color corresponds to one
+    of the integer values in LEVELS. We can get the color of any square s in the
+    maze with COLORS[s].
 
 >>> tuple(enumerate(maze.COLORS))
 ((0, '\\x1b[40m'),
@@ -184,7 +218,7 @@ TypeError: 'tuple' object does not support item assignment
     that returns nothing is called a procedure. Here's a simple function:
 
 >>> def myfunc(arg1, arg2):         # definition with argument specification
-...     """add two values together  # docstring
+...     """add two values together  # docstring -- optional documentation
 ...     """
 ...     val = arg1 + arg2           # body
 ...     return val                  # return statement
@@ -269,7 +303,7 @@ TypeError: 'set' object does not support indexing
 
     EVENTS contains a listing of event functions mapped to a set of coordinates.
     If we feed the starting coordinates into the EVENTS dictionary, we get the
-    start function back:
+    start function (look in maze.py, you should recognize it):
 
 >>> maze.START
 (2, 9, 0)
@@ -289,6 +323,13 @@ Traceback (most recent call last):
   File "<doctest __main__[41]>", line 1, in <module>
     d = {['a_list']: 'fails'}
 TypeError: unhashable type: 'list'
+
+
+    Hopefully by now you have some idea of how the maze actually works. Feel
+    free to dig into the source code and bring any questions you have to me.
+    maze.py is the top level code -- it may be clear to you, but it's fine if
+    it's not. util.py contains the guts of the maze, and will be a little harder
+    to work out, but may be rewarding.
 '''
 
 if __name__ == '__main__':
