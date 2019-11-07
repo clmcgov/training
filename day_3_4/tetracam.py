@@ -27,8 +27,8 @@ def img_to_cover(path):
     img = Image.open(path) # get image file object
     mtif = ImageSequence.Iterator(img) # it's a multi-tiff
     res = ndvi( # get NDVI, don't keep bands in memory
-        nir=mtif[BANDS.index('nir')],
-        red=mtif[BANDS.index('red')]))
+        nir=array(mtif[BANDS.index('nir')]),
+        red=array(mtif[BANDS.index('red')]))
     res = res[isfinite(res)] # remove nan/inf
     th = threshold_otsu(res) # get threshold
     res = where(res > th, 1, 0).astype(uint8) # classify
@@ -142,7 +142,6 @@ def show_rgb(mtif, r='red', g='green', b='blue'):
     -----
     available bands: (nir, blue, green, yellow, red, edge)
     '''
-    img = Image.merge(
-        mode='RGB',
-        bands=(mtif[BANDS.index(b)] for b in r, g, b))
+    img = Image.merge(mode='RGB',
+        bands=(mtif[BANDS.index(b)] for b in (r, g, b)))
     img.show()
