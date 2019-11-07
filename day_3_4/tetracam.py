@@ -8,25 +8,8 @@ from pandas import DataFrame, Timestamp
 from numpy import array, float32, int16, isfinite, uint8, where
 from skimage.filters import threshold_otsu
 
-# image bands in order (2019 only)
-BANDS = ('nir', 'blue', 'green', 'yellow', 'red', 'edge')
-
-def get_band(mtif, name):
-    '''get a band by name from a tetracam multi-tiff
-
-
-    Parameters
-    ----------
-    mtif: PIL.ImageSequence
-    name: str
-        one of (nir, blue, green, yellow, red, edge)
-
-
-    Returns
-    -------
-    PIL.Image
-    '''
-    return mtif[BANDS.index(name)].getchannel(0)
+# image bands (sorted)
+BANDS = ('blue', 'edge', 'green', 'nir', 'red', 'yellow')
 
 def img_to_cover(path):
     '''calculate canopy cover from a tetracam multi-tiff file (2019 only)
@@ -44,8 +27,8 @@ def img_to_cover(path):
     img = Image.open(path) # get image file object
     mtif = ImageSequence.Iterator(img) # it's a multi-tiff
     res = ndvi( # get NDVI, don't keep bands in memory
-        nir=array(get_band(mtif, 'nir')),
-        red=array(get_band(mtif, 'red')))
+        nir=mtif[BANDS.index('nir')],
+        red=mtif[BANDS.index('red')]))
     res = res[isfinite(res)] # remove nan/inf
     th = threshold_otsu(res) # get threshold
     res = where(res > th, 1, 0).astype(uint8) # classify
@@ -161,8 +144,5 @@ def show_rgb(mtif, r='red', g='green', b='blue'):
     '''
     img = Image.merge(
         mode='RGB',
-        bands=(
-            get_band(mtif, r),
-            get_band(mtif, g),
-            get_band(mtif, b)))
+        bands=(mtif[BANDS.index(b)] for b in r, g, b))
     img.show()
