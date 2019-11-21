@@ -113,7 +113,7 @@ class INet:
     def __init__(self, eff):
         self.eff = eff
 
-    def __call__(self, i_gross):
+    def foo(self, i_gross):
         return i_gross * self.eff / 100
 
     @property
