@@ -1,4 +1,6 @@
 '''
+Should include some discussiong of state/mutability/imperative/functional
+
 Before we get into the applied part of today's lesson, I want to touch on some
 concepts in programming. I'm not really expecting you to retain any of this,
 but I do want to give you some context for the things that I do want you to
@@ -113,7 +115,7 @@ class INet:
     def __init__(self, eff):
         self.eff = eff
 
-    def foo(self, i_gross):
+    def __call__(self, i_gross):
         return i_gross * self.eff / 100
 
     @property
