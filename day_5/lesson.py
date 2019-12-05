@@ -219,7 +219,9 @@ array.
 >>> l = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 >>> l
-[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+[[1, 2, 3],
+ [4, 5, 6],
+ [7, 8, 9]]
 
 
 >>> a = array(l)
@@ -343,7 +345,7 @@ element from b at the specified index.
 So what if we want the indexes to be steadily increasing? That's where the
 multiplication term comes in:
 
->>> 5 * a[:, None]
+>>> 6 * a[:, None]
 array([[ 0],
        [ 5],
        [10],
@@ -532,7 +534,7 @@ Remember that the last bit was a list comprehension equivalent to:
 >>> res = []
 
 >>> for idx in idxs:
-...     res.append(idxr + idx)
+...     res.append(img[idxr + idx])
 
 >>> array(res)
 array([[[5468, 5469, 5470, 5471, 5472],
