@@ -603,7 +603,7 @@ of any reasonable rectangular array.
 
 To prove it, we'll write some code to display samples from an image:
 
-from PIL import Image, ImageSequence
+>>> from PIL import Image, ImageSequence
 
 >>> with Image.open('images/10jul2019_A11.tif') as img:
 ...     nir = array(ImageSequence.Iterator(img)[BANDS.index('nir')])
